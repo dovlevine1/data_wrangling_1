@@ -18,6 +18,8 @@ library(tidyverse)
 
 ``` r
 library("vroom")
+library(readxl)
+library(haven)
 ```
 
 ## Read in some data
@@ -97,3 +99,58 @@ Data summary
 | pups\_born\_alive |          0 |           1.00 |  7.35 | 1.76 |  3.0 |  6.00 |  8.00 |  8.00 | 11.0 | ▁▃▂▇▁ |
 | pups\_dead\_birth |          0 |           1.00 |  0.33 | 0.75 |  0.0 |  0.00 |  0.00 |  0.00 |  4.0 | ▇▂▁▁▁ |
 | pups\_survive     |          0 |           1.00 |  6.41 | 2.05 |  1.0 |  5.00 |  7.00 |  8.00 |  9.0 | ▁▃▂▇▇ |
+
+## Options to read\_csv
+
+``` r
+litters_df = read_csv("./data/FAS_litters.csv", skip = 10, col_names = FALSE)
+```
+
+    ## Rows: 40 Columns: 8
+
+    ## ── Column specification ────────────────────────────────────────────────────────
+    ## Delimiter: ","
+    ## chr (2): X1, X2
+    ## dbl (6): X3, X4, X5, X6, X7, X8
+
+    ## 
+    ## ℹ Use `spec()` to retrieve the full column specification for this data.
+    ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+
+Check out ?read\_csv for more info
+
+## Other file formats
+
+Read in an excel file.
+
+``` r
+mlb_df = read_excel("./data/mlb11.xlsx", range = "A1:F7")
+```
+
+## Comparison with Base R
+
+what about ’read.csv …?
+
+``` r
+litters_base = read.csv("data/FAS_litters.CSV")
+litters_readr = read_csv("data/FAS_litters.CSV")
+```
+
+    ## Rows: 49 Columns: 8
+
+    ## ── Column specification ────────────────────────────────────────────────────────
+    ## Delimiter: ","
+    ## chr (2): Group, Litter Number
+    ## dbl (6): GD0 weight, GD18 weight, GD of Birth, Pups born alive, Pups dead @ ...
+
+    ## 
+    ## ℹ Use `spec()` to retrieve the full column specification for this data.
+    ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+
+## Exporting data
+
+export the mlb sub-table
+
+``` r
+write_csv(mlb_df, "./data/mlb_subtable.csv")
+```
